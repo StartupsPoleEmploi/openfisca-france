@@ -1,0 +1,10 @@
+description: taux de la CSG déductible
+reference: https://www.ipp.eu/outils/baremes-ipp/
+unit: /1
+values:
+  1997-01-01:
+    value: 0.01
+  1998-01-01:
+    value: 0.051
+  2018-01-01:
+    value: 0.068

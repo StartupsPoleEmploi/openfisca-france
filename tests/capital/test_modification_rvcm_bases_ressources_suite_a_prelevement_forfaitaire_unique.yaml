@@ -1,0 +1,103 @@
+- name: rfr_f2dc_f2dh_2017
+  description: Montant de rfr en 2017 via les case 2DC et 2DH
+  period: 2017
+  absolute_error_margin: 10
+  input:
+    f2dc: 100000
+    f2dh: 50000
+  output:
+    rfr: 150000
+
+- name: rfr_f2dc_f2dh_2018
+  description: Montant de rfr en 2018 via les case 2DC et 2DH
+  period: 2018
+  absolute_error_margin: 10
+  input:
+    f2dc: 100000
+    f2dh: 50000
+  output:
+    rfr: 150000
+
+- name: revenus_et_produits_plafonnement_isf_ifi_f2dc_f2dh_2017
+  description: Montant de revenus_et_produits_plafonnement_isf_ifi en 2017 via les case 2DC et 2DH
+  period: 2017
+  absolute_error_margin: 10
+  input:
+    f2dc: 100000
+    f2dh: 50000
+  output:
+    revenus_et_produits_plafonnement_isf_ifi: 150000
+
+- name: revenus_et_produits_plafonnement_isf_ifi_f2dc_f2dh_2018
+  description: Montant de revenus_et_produits_plafonnement_isf_ifi en 2018 via les case 2DC et 2DH
+  period: 2018
+  absolute_error_margin: 10
+  input:
+    f2dc: 100000
+    f2dh: 50000
+  output:
+    revenus_et_produits_plafonnement_isf_ifi: 150000
+
+- name: aide_logement_base_revenus_fiscaux_f2dc_f2dh_2017
+  description: Montant de aide_logement_base_revenus_fiscaux en 2017 via les case 2DC et 2DH
+  period: 2017
+  absolute_error_margin: 10
+  input:
+    f2dc: 100000
+    f2dh: 50000
+  output:
+    aide_logement_base_revenus_fiscaux: 0.6*100000 + 50000
+
+- name: aide_logement_base_revenus_fiscaux_f2dc_f2dh_2018
+  description: Montant de aide_logement_base_revenus_fiscaux en 2018 via les case 2DC et 2DH
+  period: 2018
+  absolute_error_margin: 10
+  input:
+    f2dc: 100000
+    f2dh: 50000
+  output:
+    aide_logement_base_revenus_fiscaux: 150000
+
+- name: rev_coll_f2dc_f2dh_2017
+  description: Montant de rev_coll en 2017 via les case 2DC et 2DH
+  period: 2017
+  absolute_error_margin: 10
+  input:
+    f2dc: 100000
+    f2dh: 50000
+  output:
+    rev_coll: 0.6*100000 + 50000
+
+- name: rev_coll_f2dc_f2dh_2018
+  description: Montant de rev_coll en 2018 via les case 2DC et 2DH
+  period: 2018
+  absolute_error_margin: 10
+  input:
+    f2dc: 100000
+    f2dh: 50000
+  output:
+    rev_coll: 150000
+
+- name: revenus_capital_f2dc_f2dh_2017
+  description: Montant de revenus_capital en 2017 via les case 2DC et 2DH
+  period: 2017-01
+  absolute_error_margin: 10
+  input:
+    f2dc:
+      2017: 100000
+    f2dh:
+      2017: 50000
+  output:
+    revenus_capital: 150000 / 12
+
+- name: revenus_capital_f2dc_f2dh_2018
+  description: Montant de revenus_capital en 2018 via les case 2DC et 2DH
+  period: 2018-01
+  absolute_error_margin: 10
+  input:
+    f2dc:
+      2018: 100000
+    f2dh:
+      2018: 50000
+  output:
+    revenus_capital: 150000 / 12

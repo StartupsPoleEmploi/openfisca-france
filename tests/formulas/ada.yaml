@@ -1,0 +1,49 @@
+- name: Aide Demandeur Asile - 2 parents, 3 enfants, demandeur de l'aide, avec hebergement
+  description: Montant ADA au niveau de la famille
+  period: 2015-12
+  absolute_error_margin: 1
+  input:
+    famille:
+      parents: [parent1, parent2]
+      enfants: [enfant1, enfant2, enfant3]
+      asile_demandeur: true
+    foyer_fiscal:
+      declarants: [parent1, parent2]
+      personnes_a_charge: [enfant1, enfant2, enfant3]
+    menage:
+      personne_de_reference: parent1
+      conjoint: parent2
+      enfants: [enfant1, enfant2, enfant3]
+    individus:
+      parent1: {}
+      parent2: {}
+      enfant1:
+        age: 8
+      enfant2:
+        age: 9
+      enfant3:
+        age: 10
+  output:
+    ada: 632.4 # 20.4 * 31
+
+- name: Aide Demandeur Asile - 1 parent, 1 enfants, sans hebergement
+  description: Montant ADA au niveau de la famille
+  period: 2015-11
+  absolute_error_margin: 1
+  input:
+    nb_parents: 1
+    af_nbenf: 1
+    asile_demandeur: true
+    place_hebergement: false
+  output:
+    ada: 432.0 # (10.2 + 4.20) * 30
+
+- period: 2015-12
+  absolute_error_margin: 1
+  input:
+    nb_parents: [2, 1]
+    af_nbenf: [2, 0]
+    asile_demandeur: [true, false]
+    place_hebergement: [true, false]
+  output:
+    ada: [527, 0] # 17.0 * 31

@@ -1,0 +1,328 @@
+- period: '2012'
+  name: RSA célibataire, retrait_brute = 1500 * 12
+  relative_error_margin: 0.01
+  input:
+    date_naissance: '1945-01-01'  # 67 ans
+    retraite_brute:
+      2010-01: 1500
+      2010-02: 1500
+      2010-03: 1500
+      2010-04: 1500
+      2010-05: 1500
+      2010-06: 1500
+      2010-07: 1500
+      2010-08: 1500
+      2010-09: 1500
+      2010-10: 1500
+      2010-11: 1500
+      2010-12: 1500
+      2011-01: 1500
+      2011-02: 1500
+      2011-03: 1500
+      2011-04: 1500
+      2011-05: 1500
+      2011-06: 1500
+      2011-07: 1500
+      2011-08: 1500
+      2011-09: 1500
+      2011-10: 1500
+      2011-11: 1500
+      2011-12: 1500
+      2012-01: 1500
+      2012-02: 1500
+      2012-03: 1500
+      2012-04: 1500
+      2012-05: 1500
+      2012-06: 1500
+      2012-07: 1500
+      2012-08: 1500
+      2012-09: 1500
+      2012-10: 1500
+      2012-11: 1500
+      2012-12: 1500
+    rpns_individu:
+      2010: 0
+      2011: 0
+      2012: 0
+    statut_occupation_logement:
+      2012-01: proprietaire    # Propriétaire (non accédant) du logement
+  output:
+    revenus_nets_du_travail:
+      2012: 0
+    pensions_nettes:
+      2012: 16812
+    revenus_nets_du_capital:
+      2012: 0
+    # start prestations_sociales
+    aspa:
+      2012-01: 0
+    minima_sociaux:
+      2012: 0
+    prestations_sociales:
+      2012: 0
+    # end prestations_sociales
+    ppe:
+      2012: 0
+    impots_directs:
+      2012: -528
+    revenu_disponible:
+      2012: 16812 - 528
+    aides_logement:
+      '2012': 0
+
+- period: '2012'
+  name: RSA célibataire, f2ee = 1500 * 12
+  input:
+    date_naissance: '1945-01-01'  # 67 ans
+    f2ee:
+      2010: 1500 * 12
+      2011: 1500 * 12
+      2012: 1500 * 12
+    rpns_individu:
+      2010: 0
+      2011: 0
+      2012: 0
+    statut_occupation_logement:
+      2012-01: proprietaire
+  output:
+    revenus_nets_du_travail:
+      2012: 0
+    pensions_nettes:
+      2012: 0
+    # start revenus_nets_du_capital
+    revenus_capitaux_prelevement_bareme:
+      2012-01: 0
+    revenus_capitaux_prelevement_liberatoire:
+      2012-01: 1500
+    prelevements_sociaux_revenus_capital:
+    # TODO si haut je pensais plutôt à 15.5 ?
+      2012: -12 * 1500 * 0.175
+    prelevement_forfaitaire_liberatoire:
+      2012: -12 * 1500 * 0.24
+    revenus_nets_du_capital:
+      2012: 14850
+    # start prestations_sociales
+    aspa:
+      2012-01: 0
+    minima_sociaux:
+      2012: 0
+    prestations_sociales:
+      2012: 0
+    # end prestations_sociales
+    ppe:
+      2012: 0
+    impots_directs:
+      2012: -4320
+    revenu_disponible:
+      2012: 10530
+    aides_logement:
+      '2012': 0
+
+- period: '2012'
+  name: RSA célibataire, f2dc = 1500 * 12
+  relative_error_margin: 0.001
+  input:
+    date_naissance: '1945-01-01'  # 67 ans
+    f2dc:
+      2010: 2500 * 12
+      2011: 2500 * 12
+      2012: 2500 * 12
+    rpns_individu:
+      2010: 0
+      2011: 0
+      2012: 0
+    statut_occupation_logement:
+      2012-01: proprietaire
+  output:
+    revenus_nets_du_travail:
+      2012: 0
+    pensions_nettes:
+      2012: 0
+    # start revenus_nets_du_capital
+    revenus_capitaux_prelevement_bareme:
+      2012-01: 2500
+    revenus_capitaux_prelevement_liberatoire:
+      2012-01: 0
+    prelevements_sociaux_revenus_capital:
+    # TODO si haut je pensais plutôt à 15.5 ?
+      2012: -12 * 2500 * 0.175
+    prelevement_forfaitaire_liberatoire:
+      2012: 0
+    revenus_nets_du_capital:
+      2012: 2500 * 12 * (1 - 0.175)
+    # start prestations_sociales
+    aspa:
+      2012-01: 0
+    minima_sociaux:
+      2012: 0
+    prestations_sociales:
+      2012: 0
+    # end prestations_sociales
+    ppe:
+      2012: 0
+    impots_directs:
+      2012: -1019
+    revenu_disponible:
+      2012: 2500 * 12 * (1 - 0.175) - 1019
+    aides_logement:
+      '2012': 0
+
+- name: f1aw_f4ba_2017
+  description: Revenus fonciers (4BA) et rentes viagères à titre onéreux (1AW), 2017 (vérifie notamment la formule de revenus_nets_du_capital qui est un peu complexe pour ces deux types de revenu)
+  period: 2017
+  absolute_error_margin: 1
+  input:
+    f1aw: 30000
+    f4ba: 20000
+    rsa: 0
+  output:
+    prelevements_sociaux_revenus_capital: -7052 # -(0.7*30000 + 20000) * (0.045 + 0.02 + 0.003 + 0.005 + 0.082)
+    revenus_nets_du_capital: (20000 - 7052)
+    pensions_nettes: 30000
+    irpp: -6593 # Montant calculé sur le simulateur de la DGFiP
+    impots_directs: -6593 # Montant calculé sur le simulateur de la DGFiP
+    revenu_disponible: (20000 - 7052) + 30000 - 6593
+
+- name: acomptes_ir_2016
+  description: Montant d'impôt et revenu disponible en cas d'acomptes pour l'IR en 2016 (prélèvement forfaitaire non libératoire et acomptes pour élus locaux). Attention, on n'a pas regardé les cotisations sociales et donc, on ne teste pas revenu_disponible ici...'
+  period: 2016
+  absolute_error_margin: 1
+  input:
+    f2ck: 10000
+    f8th: 3000
+    f2dc: 100000
+    salaire_imposable: 25000
+  output:
+    acomptes_ir: 13000
+    revenus_nets_du_capital: 100000*(1-(0.045+0.02+0.003+0.005+0.082))
+    irpp: -7266 # Montant calculé sur le simulateur de la DGFiP
+    impots_directs: -7266-13000
+
+- name: acomptes_ir_2017
+  description: Montant d'impôt et revenu disponible en cas d'acomptes pour l'IR en 2017 (prélèvement forfaitaire non libératoire)
+  period: 2017
+  absolute_error_margin: 1
+  input:
+    f2ck: 10000
+    f2dc: 100000
+    rsa: 0
+  output:
+    prelevement_forfaitaire_non_liberatoire: 10000
+    acomptes_ir: 10000
+    revenus_nets_du_capital: 100000*(1-(0.045+0.02+0.003+0.005+0.099))
+    irpp: -2293 # Montant calculé sur le simulateur de la DGFiP
+    impots_directs: -(2293+10000)
+    revenu_disponible: 100000*(1-(0.045+0.02+0.003+0.005+0.099))-(2293+10000)
+
+- name: plus_values_immobilières_2017
+  description: Montant d'impôt et revenu disponible pour les plus-values immobilières (3VZ)
+  period: 2017
+  absolute_error_margin: 1
+  input:
+    f3vz: 100000
+  output:
+    prelevements_sociaux_revenus_capital: -100000*(0.045+0.02+0.003+0.005+0.099)
+    revenus_nets_du_capital: 100000*(1-(0.045+0.02+0.003+0.005+0.099))
+    ir_pv_immo: -0.19*100000
+    irpp: 0
+    impots_directs: -0.19*100000
+
+- name: pfu_av_2018
+  description: Test du prélèvement forfaitaire unique en 2018 pour les produits d'assurance-vie
+  period: 2018
+  absolute_error_margin: 1
+  input:
+    assurance_vie_pfu_ir_plus8ans_1990_19970926: 100000
+    assurance_vie_pfu_ir_plus6ans_avant1990: 200000
+    assurance_vie_pfu_ir_moins4ans_1990_19970926: 300000
+    assurance_vie_pfu_ir_4_8_ans_1990_19970926: 400000
+    assurance_vie_pfu_ir_plus8ans_19970926_primes_avant_20170927: 500000
+    assurance_vie_pfu_ir_4_8_ans_19970926_primes_avant_20170927: 600000
+    assurance_vie_pfu_ir_moins4ans_19970926_primes_avant_20170927: 700000
+    f2zz: 800000
+    f2vv: 150000
+    f2ww: 750000
+    rsa: 0
+  output:
+    prelevements_sociaux_revenus_capital: -774000 # -4500000*(0.045+0.02+0.003+0.005+0.099)
+    revenus_nets_du_capital: 4500000 - 774000
+    prelevement_forfaitaire_unique_ir_sur_assurance_vie: -209305.0 # ((150000 - 4600)  * 0.075 + 800000 * 0.128 + 750000 * 0.128)
+    impots_directs: -209305.0
+    revenu_disponible: 4500000 - 774000 -209305.0
+
+- name: pfu_hors_av_epargne_non_solidaire_etats_non_cooperatifs_2018
+  description: Test du prélèvement forfaitaire unique en 2018 hors assurance-vie, produits d'épargne solidaire et produits des états non-coopératifs'
+  period: 2018
+  absolute_error_margin: 1
+  input:
+    f2dc: 20000
+    f3sa: 30000
+    f3vg: 40000
+    f3vd: 50000
+    interets_plan_epargne_logement_moins_de_12_ans_ouvert_a_partir_de_2018: 60000
+    interets_compte_epargne_logement_ouvert_a_partir_de_2018: 70000
+    rsa: 0
+  output:
+    prelevements_sociaux_revenus_capital: -41280
+    revenus_nets_du_capital: 270000 - 41280
+    prelevement_forfaitaire_unique_ir_hors_assurance_vie_epargne_solidaire_etats_non_cooperatifs: -28160 #-(22000*0.128) 3VD est un gain taxé forfaitairement au taux de 18% et non au PFU
+    taxation_plus_values_hors_bareme: 9000 #50000 * 0.18
+    impots_directs: -28160 - 9000
+    revenu_disponible: 270000 - 41280 - 28160 - 9000
+
+- name: plus_values_immobilières_2018
+  description: Montant d'impôt et revenu disponible pour les plus-values immobilières (3VZ)
+  period: 2018
+  absolute_error_margin: 1
+  input:
+    f3vz: 100000
+  output:
+    prelevements_sociaux_revenus_capital: -100000*(0.045+0.02+0.003+0.005+0.099)
+    revenus_nets_du_capital: 100000*(1-(0.045+0.02+0.003+0.005+0.099))
+    ir_pv_immo: -0.19*100000
+    irpp: 0
+    impots_directs: -0.19*100000
+    # revenu_disponible: 100000*(1-(0.19+0.045+0.02+0.003+0.005+0.099))
+
+- name: Revenu disponible avec APL avant RLS
+  absolute_error_margin: 0.1
+  period: 2017-12
+  input:
+    zone_apl: zone_1
+    aide_logement_montant_brut: 100
+    logement_conventionne:
+      2017-12: true
+    aide_logement_base_ressources: 900
+    minima_sociaux:
+      2017: 5000
+  output:
+    apl:
+      2017-12: 99.5
+    revenu_disponible:
+      2017: 5099.5
+    prestations_sociales:
+      2017: 5099.5
+    aides_logement:
+      2017: 99.5
+
+- name: Revenu disponible avec APL après RLS
+  absolute_error_margin: 0.1
+  period: 2018-01
+  input:
+    zone_apl: zone_1
+    aide_logement_montant_brut: 100
+    logement_conventionne:
+      2018-01: true
+      2018-02: false
+    aide_logement_base_ressources: 900
+    minima_sociaux:
+      2018: 5000
+  output:
+    apl: 68.45
+    reduction_loyer_solidarite: 31.83
+    revenu_disponible:
+      2018: 5100.28
+    prestations_sociales:
+      2018: 5100.28
+    aides_logement:
+      2018: 68.45
