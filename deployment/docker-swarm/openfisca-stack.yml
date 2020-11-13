@@ -3,21 +3,12 @@ version: '3.8'
 services:
   openfisca-france:
     image: registry.beta.pole-emploi.fr/estime/openfisca-france
-    environment:
-      - TZ=Europe/Paris
     ports:
       - 5000:5000
     networks:
       - estime
     deploy:
       replicas: 2
-      resources:
-        reservations:
-          cpus: '0.05'
-          memory: 512Mi
-        limits:
-          cpus: '0.10'
-          memory: 1536Mi
       update_config:
         parallelism: 1
         delay: 10s
