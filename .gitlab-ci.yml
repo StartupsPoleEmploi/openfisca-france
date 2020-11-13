@@ -1,0 +1,41 @@
+stages:
+  - build-docker-image
+  - deploy-application
+
+build_docker_image:
+  stage: build-docker-image
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    # build openfisca docker image and push it in containers registry
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_REGISTRY_IMAGE
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+      changes:
+        - Dockerfile
+        - deployment/docker-swarm/**/*
+ 
+deploy_application:
+  stage: deploy-application
+  before_script:
+    - apt-get update -qq
+    - apt-get install -y -qq openssh-client rsync iputils-ping
+    # add target server in known_hosts
+    - mkdir ~/.ssh
+    - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+    # add SSH_PRIVATE_KEY in agent store
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - mkdir -p ~/.ssh
+  script:
+    - rsync -avz --no-perms --no-owner --no-group -e 'ssh'  $CI_PROJECT_DIR/deployment/docker-swarm/ $HOST_SERVER_USER@$HOST_SERVER_IP:/home/docker/openfisca
+    # exec deploy.sh to deploy docker stack openfisca or update openfisca image service
+    - ssh $HOST_SERVER_USER@$HOST_SERVER_IP "cd /home/docker/openfisca && ./deploy.sh $CI_REGISTRY $CI_REGISTRY_USER $CI_REGISTRY_PASSWORD"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+      changes:
+        - Dockerfile
+        - deployment/docker-swarm/**/*
