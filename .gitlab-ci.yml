@@ -33,7 +33,7 @@ deploy_application-recette:
     - ssh-add <(echo "$SSH_PRIVATE_KEY")
     - mkdir -p ~/.ssh
   script:
-    - rsync -avz --no-perms --no-owner --no-group -e 'ssh'  $CI_PROJECT_DIR/deployment/docker-swarm/ $HOST_SERVER_USER@$HOST_SERVER_IP:/home/docker/openfisca
+    - rsync -avz --no-perms --no-owner --no-group -e 'ssh'  $CI_PROJECT_DIR/deployment/staging/ $HOST_SERVER_USER@$HOST_SERVER_IP:/home/docker/openfisca
     # exec deploy.sh to deploy docker stack openfisca or update openfisca image service
     - ssh $HOST_SERVER_USER@$HOST_SERVER_IP "cd /home/docker/openfisca && ./deploy.sh $CI_REGISTRY $CI_REGISTRY_USER $CI_REGISTRY_PASSWORD"
   rules:
