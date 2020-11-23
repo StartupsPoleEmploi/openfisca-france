@@ -1,8 +1,9 @@
 stages:
+  - job-test
   - build-docker-image-release-candidate
   - deploy-application-recette
   - build-docker-image-release
-  - deploy-application-production
+  - deploy-application-production   
 
 build_docker_image-release-candidate:
   stage: build-docker-image-release-candidate
@@ -12,7 +13,7 @@ build_docker_image-release-candidate:
   script:
     # build openfisca docker image and push it in containers registry
     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
-    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_REGISTRY_IMAGE:rc
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_REGISTRY_IMAGE:release-candidate
   rules:
     - if: '$CI_COMMIT_BRANCH == "master"'
       changes:
@@ -36,11 +37,7 @@ deploy_application-recette:
     - rsync -avz --no-perms --no-owner --no-group -e 'ssh'  $CI_PROJECT_DIR/deployment/staging/ $HOST_SERVER_USER@$HOST_SERVER_IP:/home/docker/openfisca
     # exec deploy.sh to deploy docker stack openfisca or update openfisca image service
     - ssh $HOST_SERVER_USER@$HOST_SERVER_IP "cd /home/docker/openfisca && ./deploy.sh $CI_REGISTRY $CI_REGISTRY_USER $CI_REGISTRY_PASSWORD"
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "master"'
-      changes:
-        - Dockerfile
-        - deployment/staging/**/*
+  when: manual
 
 build_docker_image-release:
   stage: build-docker-image-release
