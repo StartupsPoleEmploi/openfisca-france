@@ -17,7 +17,7 @@ build_docker_image-release-candidate:
     - if: '$CI_COMMIT_BRANCH == "master"'
       changes:
         - Dockerfile
-        - deployment/docker-swarm/**/*
+        - deployment/staging/**/*
  
 deploy_application-recette:
   stage: deploy-application-recette
@@ -40,7 +40,7 @@ deploy_application-recette:
     - if: '$CI_COMMIT_BRANCH == "master"'
       changes:
         - Dockerfile
-        - deployment/docker-swarm/**/*
+        - deployment/staging/**/*
 
 build_docker_image-release:
   stage: build-docker-image-release
