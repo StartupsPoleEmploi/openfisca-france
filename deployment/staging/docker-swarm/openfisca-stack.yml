@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  openfisca-france:
+    image: registry.beta.pole-emploi.fr/estime/openfisca-france:rc
+    ports:
+      - 5000:5000
+    networks:
+      - estime
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+
+networks:
+  estime:
+    external: true
+    name: estime

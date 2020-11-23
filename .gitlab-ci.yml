@@ -1,24 +1,26 @@
 stages:
-  - build-docker-image
-  - deploy-application
+  - build-docker-image-release-candidate
+  - deploy-application-recette
+  - build-docker-image-release
+  - deploy-application-production
 
-build_docker_image:
-  stage: build-docker-image
+build_docker_image-release-candidate:
+  stage: build-docker-image-release-candidate
   image:
     name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
   script:
     # build openfisca docker image and push it in containers registry
     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
-    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_REGISTRY_IMAGE
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_REGISTRY_IMAGE:rc
   rules:
     - if: '$CI_COMMIT_BRANCH == "master"'
       changes:
         - Dockerfile
         - deployment/docker-swarm/**/*
  
-deploy_application:
-  stage: deploy-application
+deploy_application-recette:
+  stage: deploy-application-recette
   before_script:
     - apt-get update -qq
     - apt-get install -y -qq openssh-client rsync iputils-ping
@@ -39,3 +41,33 @@ deploy_application:
       changes:
         - Dockerfile
         - deployment/docker-swarm/**/*
+
+build_docker_image-release:
+  stage: build-docker-image-release
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    # build openfisca docker image and push it in containers registry
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_REGISTRY_IMAGE:release
+  when: manual
+ 
+deploy_application-production:
+  stage: deploy-application-production
+  before_script:
+    - apt-get update -qq
+    - apt-get install -y -qq openssh-client rsync iputils-ping
+    # add target server in known_hosts
+    - mkdir ~/.ssh
+    - echo "$SSH_KNOWN_HOSTS_PROD" >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+    # add SSH_PRIVATE_KEY in agent store
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY_PROD")
+    - mkdir -p ~/.ssh
+  script:
+    - rsync -avz --no-perms --no-owner --no-group -e 'ssh'  $CI_PROJECT_DIR/deployment/production/ $HOST_SERVER_USER@$HOST_SERVER_IP_PROD:/home/docker/openfisca
+    # exec deploy.sh to deploy docker stack openfisca or update openfisca image service
+    - ssh $HOST_SERVER_USER@$HOST_SERVER_IP_PROD "cd /home/docker/openfisca && ./deploy.sh $CI_REGISTRY $CI_REGISTRY_USER $CI_REGISTRY_PASSWORD"
+  when: manual
