@@ -34,7 +34,7 @@ deploy_application-recette:
   script:
     - rsync -avz --no-perms --no-owner --no-group -e 'ssh' $CI_PROJECT_DIR/dist/deploy.sh $CI_PROJECT_DIR/dist/openfisca-recette-stack.yml $HOST_SERVER_USER@$HOST_SERVER_IP:/home/docker/openfisca
     # exec deploy.sh to deploy docker stack openfisca or update openfisca image service
-    - ssh $HOST_SERVER_USER@$HOST_SERVER_IP "cd /home/docker/openfisca && ./deploy.sh $CI_REGISTRY $CI_REGISTRY_USER $CI_REGISTRY_PASSWORD"
+    - ssh $HOST_SERVER_USER@$HOST_SERVER_IP "cd /home/docker/openfisca && ./deploy.sh $CI_REGISTRY $CI_REGISTRY_USER $CI_REGISTRY_PASSWORD recette"
   when: manual
 
 build_docker_image-production:
@@ -64,5 +64,5 @@ deploy_application-production:
   script:
     - rsync -avz --no-perms --no-owner --no-group -e 'ssh'  $CI_PROJECT_DIR/dist/deploy.sh $CI_PROJECT_DIR/dist/openfisca-production-stack.yml $HOST_SERVER_USER@$HOST_SERVER_IP_PROD:/home/docker/openfisca
     # exec deploy.sh to deploy docker stack openfisca or update openfisca image service
-    - ssh $HOST_SERVER_USER@$HOST_SERVER_IP_PROD "cd /home/docker/openfisca && ./deploy.sh $CI_REGISTRY $CI_REGISTRY_USER $CI_REGISTRY_PASSWORD"
+    - ssh $HOST_SERVER_USER@$HOST_SERVER_IP_PROD "cd /home/docker/openfisca && ./deploy.sh $CI_REGISTRY $CI_REGISTRY_USER $CI_REGISTRY_PASSWORD production"
   when: manual
