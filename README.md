@@ -13,7 +13,7 @@ OpenFisca France est un moteur de calcul Open source développé dans le languag
 
 # [Conteneurisation] Utilisation de Docker
 
-Strucutration du projet :
+**Structuration du projet :**
 
 - **local :** contient les fichiers de configuration pour lancer l'application en local avec Docker Compose
 - **dist :** contient les fichiers de configuration pour l'environnement de recette et de production. Le conteneur est déployé sur un serveur Docker Swarm
