@@ -20,19 +20,22 @@ OpenFisca France est un moteur de calcul développé dans le language Python qui
 
 1. Exécuter la commande suivante pour construire l'image :
 
-    ```
+    ```shell
     foo@bar:~openfisca-france$ docker build . -f ./docker-image/Dockerfile -t openfisca-france
     ```
 1. Exécuter la commande suivante pour démarrer le conteneur :
 
-    ```
+    ```shell
     foo@bar:~openfisca-france$ docker-compose  -f ./local/docker-compose.yml up -d
     ```
 
-#see openfisca-france python package version
-pip show openfisca-france
+# [OpenFisca] Quelques trucs utiles
 
+- Executer la commande suivante pour connaître la version du package openfisca-france d'installé dans le conteneur :
 
-#descriptions des versions de openfisca-france
+```shell
+foo@bar:~$ pip show openfisca-france
+```
+
 
 
