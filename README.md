@@ -34,6 +34,7 @@ OpenFisca France est un moteur de calcul Open source développé dans le languag
     ```shell
     foo@bar:~openfisca-france$ docker-compose  -f ./local/docker-compose.yml up -d
     ```
+1. L'application est accessible sur http://localhost:5000
 
 # [OpenFisca] Quelques trucs utiles
 
