@@ -33,8 +33,10 @@ OpenFisca France est un moteur de calcul développé dans le language Python qui
 
 - Executer la commande suivante pour connaître la version du package openfisca-france d'installé dans le conteneur :
 
+Remplacer la variable **%id_conteneur%** par l'id du conteneur. Utiliser la commande **docker container ls** pour connaître l'id du conteneur.
+
 ```shell
-foo@bar:~$ pip show openfisca-france
+foo@bar:~$ docker exec -it %id_conteneur% pip show openfisca-france
 ```
 
 
