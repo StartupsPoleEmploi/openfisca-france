@@ -25,7 +25,7 @@ OpenFisca est un moteur de cal
 1. Exécuter la commande suivante pour démarrer le conteneur :
 
     ```
-    foo@bar:~openfisca-france$docker-compose  -f ./local/docker-compose.yml up -d
+    foo@bar:~openfisca-france$ docker-compose  -f ./local/docker-compose.yml up -d
     ```
 
 #see openfisca-france python package version
