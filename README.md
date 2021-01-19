@@ -1,3 +1,5 @@
+![logo OpenFisca](.gitlab/images/openfisca.png)
+
 # [OpenFisca France] Moteur de calculs d'aides sociales (prime d'activité, RSA, etc...)
 
 Ce projet permet de **conteneuriser** l'application **OpenFisca France** en utilisant Docker.
