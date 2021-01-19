@@ -78,6 +78,4 @@ Le fichier de la stack Docker Swarm se trouve dans le répertoire **/home/docker
 
    ```
    foo@bar:~$ docker stack rm openfisca-france
-
-
-
+   ```
