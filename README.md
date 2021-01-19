@@ -50,7 +50,7 @@ Le fichier de la stack Docker Swarm se trouve dans le répertoire **/home/docker
    ```
    foo@bar:~$ docker stack ps openfisca-france
    ```
-   2 replicas ont été déclarés, vous devriez donc voir 2 services à l'état "running"
+   2 replicas ont été déclarés, vous devriez donc voir 2 services à l'état **running**
 
 - Voir les logs du service en exécutant la commande suivante :
 
