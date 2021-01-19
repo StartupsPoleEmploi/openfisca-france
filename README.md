@@ -39,5 +39,45 @@ Remplacer la variable **%id_conteneur%** par l'id du conteneur. Utiliser la comm
 foo@bar:~$ docker exec -it %id_conteneur% pip show openfisca-france
 ```
 
+# [Suivi opérationnel] Comment dépanner l'application sur les environnements distants (recette et production) ?
+
+Il faut au préablable se connecter sur une des machines distantes avec un **utilisateur ayant les droits Docker**.
+
+Le fichier de la stack Docker Swarm se trouve dans le répertoire **/home/docker/openfisca**.
+
+- Vérifier que le service est bien au statut **running** en exécutant la commande suivante :
+
+   ```
+   foo@bar:~$ docker stack ps openfisca-france
+   ```
+   2 replicas ont été déclarés, vous devriez donc voir 2 services à l'état "running"
+
+- Voir les logs du service en exécutant la commande suivante :
+
+   ```
+   foo@bar:~$ docker service logs openfisca-france_openfisca-france
+   ```
+
+- Démarrer ou relancer les services
+
+   - Se positionner dans le répertoire **/home/docker/openfisca**
+   - Se connecter au registry privé du Gitlab de l'incubateur en executant la commande suivante :
+
+      Vous devez au préalable avoir récupéré un token depuis votre compte Gitlab. Ce token vous servira de mot de passe.
+
+      ```
+      foo@bar:~$ docker login registry.beta.pole-emploi.fr
+      ```
+   - Une fois connecté au registry, vous devez exécuter la commande suivante pour démarrer ou relancer les services :
+
+      ```
+      foo@bar:/home/docker/openfisca$ docker stack deploy --with-registry-auth -c openfisca-production-stack.yml openfisca-france
+      ```
+
+- Stopper les services en exécutant la commande suivante :
+
+   ```
+   foo@bar:~$ docker stack rm openfisca-france
+
 
 
