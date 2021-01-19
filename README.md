@@ -15,6 +15,8 @@ OpenFisca est un moteur de cal
 
 ## Installer OpenFisca en local avec Docker Compose
 
+**Prérequis :** installer [Docker](https://docs.docker.com/engine/install/) et [Docker Compose](https://docs.docker.com/compose/install/).
+
 Exécuter la commande suivante pour construire l'image :
 
 ```
