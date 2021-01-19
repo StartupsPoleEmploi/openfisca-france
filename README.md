@@ -17,12 +17,16 @@ OpenFisca est un moteur de cal
 
 **Prérequis :** installer [Docker](https://docs.docker.com/engine/install/) et [Docker Compose](https://docs.docker.com/compose/install/).
 
-Exécuter la commande suivante pour construire l'image :
+1. Exécuter la commande suivante pour construire l'image :
 
-```
-foo@bar:~openfisca-france$docker build . -f ./local/Dockerfile -t openfisca-france
-```
+    ```
+    foo@bar:~openfisca-france$docker build . -f ./docker-image/Dockerfile -t openfisca-france
+    ```
+1. Exécuter la commande suivante pour démarrer le conteneur :
 
+    ```
+    foo@bar:~openfisca-france$docker-compose  . -f ./local/Dockerfile up -d
+    ```
 
 #see openfisca-france python package version
 pip show openfisca-france
