@@ -4,7 +4,7 @@ Ce projet permet de **conteneuriser** l'application **OpenFisca France** en util
 
 Ce projet a été conçu dans le cadre de la réalisation de l'application [Estime](https://git.beta.pole-emploi.fr/estime/estime-frontend/-/blob/master/README.md).
 
-OpenFisca est un moteur de cal
+OpenFisca France est un moteur de calcul développé dans le language Python qui permet de faire des simulations sur le système socio-fiscal français.
 
 **Suivi des versions de OpenFisca France :** [https://github.com/openfisca/openfisca-france/blob/master/CHANGELOG.md](https://github.com/openfisca/openfisca-france/blob/master/CHANGELOG.md)
 
