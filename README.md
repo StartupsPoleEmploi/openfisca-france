@@ -10,6 +10,8 @@ OpenFisca France est un moteur de calcul Open source développé dans le languag
 
 - **Accéder au Github du projet** : https://github.com/openfisca/openfisca-france
 - **Suivi des versions de OpenFisca France :** https://github.com/openfisca/openfisca-france/blob/master/CHANGELOG.md
+- **Documentation de l'api :** https://fr.openfisca.org/legislation/swagger
+- **Explorateur du modèle de données OpenFisca :** https://fr.openfisca.org/legislation
 
 # [Conteneurisation] Utilisation de Docker
 
