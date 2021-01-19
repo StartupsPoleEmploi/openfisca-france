@@ -6,7 +6,8 @@ Ce projet a été conçu dans le cadre de la réalisation de l'application [Esti
 
 OpenFisca France est un moteur de calcul développé dans le language Python qui permet de faire des simulations sur le système socio-fiscal français.
 
-**Suivi des versions de OpenFisca France :** [https://github.com/openfisca/openfisca-france/blob/master/CHANGELOG.md](https://github.com/openfisca/openfisca-france/blob/master/CHANGELOG.md)
+- **Accéder au Github du projet** : https://github.com/openfisca/openfisca-france
+- **Suivi des versions de OpenFisca France :** https://github.com/openfisca/openfisca-france/blob/master/CHANGELOG.md
 
 # [Conteneurisation] Utilisation de Docker
 
