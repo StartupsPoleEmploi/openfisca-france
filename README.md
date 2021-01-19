@@ -8,3 +8,11 @@ Ce projet a été conçu dans le cadre de la réalisation de l'application [Esti
 #Docker
 dans docker-image :  docker build . -t openfisca-france
 
+
+#see openfisca-france python package version
+pip show openfisca-france
+
+
+#descriptions des versions de openfisca-france
+https://github.com/openfisca/openfisca-france/blob/master/CHANGELOG.md
+
