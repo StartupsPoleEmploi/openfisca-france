@@ -5,6 +5,12 @@ services:
     image: registry.beta.pole-emploi.fr/estime/openfisca-france:release-candidate
     networks:
       - estime
+    healthcheck:
+      test: curl -v --silent http://localhost:5000/variables || exit 1
+      timeout: 30s
+      interval: 1m
+      retries: 10
+      start_period: 180s
     deploy:
       replicas: 2
       resources:
