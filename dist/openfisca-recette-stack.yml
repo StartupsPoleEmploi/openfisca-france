@@ -18,7 +18,7 @@ services:
           cpus: '0.20'
           memory: 512Mi
         limits:
-          cpus: '0.75'
+          cpus: '2'
           memory: 2048Mi
       update_config:
         parallelism: 1
