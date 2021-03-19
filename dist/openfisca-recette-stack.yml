@@ -17,7 +17,7 @@ services:
         reservations:
           cpus: '0.20'
         limits:
-          cpus: '0.30'
+          cpus: '1'
       update_config:
         parallelism: 1
         delay: 10s
