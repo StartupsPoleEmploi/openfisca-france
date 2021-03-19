@@ -7,6 +7,13 @@ services:
       - estime
     deploy:
       replicas: 2
+      resources:
+        reservations:
+          cpus: '0.20'
+          memory: 512Mi
+        limits:
+          cpus: '1'
+          memory: 2048Mi
       update_config:
         parallelism: 1
         delay: 10s
