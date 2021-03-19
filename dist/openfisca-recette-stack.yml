@@ -15,9 +15,9 @@ services:
       replicas: 2
       resources:
         reservations:
-          cpus: '0.05'
+          cpus: '0.20'
         limits:
-          cpus: '0.10'
+          cpus: '0.30'
       update_config:
         parallelism: 1
         delay: 10s
