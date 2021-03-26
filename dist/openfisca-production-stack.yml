@@ -5,6 +5,12 @@ services:
     image: registry.beta.pole-emploi.fr/estime/openfisca-france:release
     networks:
       - estime
+    healthcheck:
+      test: curl -v --silent http://localhost:5000/variables || exit 1
+      timeout: 30s
+      interval: 1m
+      retries: 10
+      start_period: 30s
     deploy:
       replicas: 2
       resources:
@@ -16,9 +22,17 @@ services:
           memory: 2048Mi
       update_config:
         parallelism: 1
+        order: start-first
+        failure_action: rollback
         delay: 10s
+      rollback_config:
+        parallelism: 0
+        order: stop-first
       restart_policy:
-        condition: on-failure
+        condition: any
+        delay: 5s
+        max_attempts: 3
+        window: 180s
 
 networks:
   estime:
