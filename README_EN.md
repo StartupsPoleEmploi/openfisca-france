@@ -31,7 +31,7 @@ This project has been realized within the scope of the realization of [Estime](h
     ```
 1. The application is accessible on http://localhost:5000
 
-# [OpenFisca] Know OpenFisca France version used
+# [OpenFisca] How to know OpenFisca France version ?
 
 ```shell
 foo@bar:~$ docker exec -it %container id% pip show openfisca-france
