@@ -44,7 +44,7 @@ OpenFisca France est un moteur de calcul Open source développé dans le languag
 foo@bar:~$ docker exec -it %id_conteneur% pip show openfisca-france
 ```
 
-# [Suivi opérationnel] Comment dépanner l'application sur les environnements distants (recette et production) ?
+# [Suivi opérationnel] Comment dépanner l'application sur un serveur Docker Swarm ?
 
 - Vérifier que l'application fonctionne correctement :
 
