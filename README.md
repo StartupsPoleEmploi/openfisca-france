@@ -71,3 +71,52 @@ foo@bar:~$ docker exec -it %id_conteneur% pip show openfisca-france
    ```
    foo@bar:~$ docker stack rm openfisca-france
    ```
+
+## Zero Downtime Deployment
+
+Le service Docker a été configuré afin d'éviter un temps de coupure du service au redémarrage de l'application.
+
+```
+healthcheck:
+  test: curl -v --silent http://localhost:8080/estime/v1/actuator/health 2>&1 | grep UP || exit 1
+  timeout: 30s
+  interval: 1m
+  retries: 10
+  start_period: 180s
+deploy:
+  replicas: 2
+  update_config:
+    parallelism: 1
+    order: start-first
+    failure_action: rollback
+    delay: 10s
+  rollback_config:
+    parallelism: 0
+    order: stop-first
+  restart_policy:
+    condition: any
+    delay: 5s
+    max_attempts: 3
+    window: 180s
+```
+
+Cette configuration permet une réplication du service avec 2 replicas. Lors d'un redémarrage, un service sera considéré opérationnel que si le test du healthcheck a réussi. Si un redémarrage est lancé, Docker va mettre à jour un premier service et s'assurer que le conteneur soit au statut healthy avant de mettre à jour le second service.
+
+## Limitation des ressources CPU et RAM
+
+Afin de gérer au mieux les ressources du serveur, la quantité de ressources CPU et de mémoire que peut utliser un conteneur a été limitée :
+
+```
+resources:
+  reservations:
+    cpus: '0.20'
+    memory: 512Mi
+  limits:
+    cpus: '0.40'
+    memory: 1536Mi
+```
+
+Voir la consommation CPU et mémoire des conteneurs Docker :
+```
+foo@bar:~$ docker stats
+```
