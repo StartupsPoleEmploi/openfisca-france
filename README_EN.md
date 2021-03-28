@@ -1,5 +1,7 @@
 ![logo OpenFisca](.gitlab/images/openfisca.png)
 
+:fr: [French version](https://github.com/StartupsPoleEmploi/openfisca-france)
+
 # [OpenFisca France] use Docker
 
 This project contains Docker configutions to containerized **OpenFisca France** application
