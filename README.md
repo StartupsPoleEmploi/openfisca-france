@@ -78,11 +78,11 @@ Le service Docker a été configuré afin d'éviter un temps de coupure du servi
 
 ```
 healthcheck:
-  test: curl -v --silent http://localhost:8080/estime/v1/actuator/health 2>&1 | grep UP || exit 1
+  test: curl -v --silent http://localhost:5000/variables || exit 1
   timeout: 30s
   interval: 1m
   retries: 10
-  start_period: 180s
+  start_period: 30s
 deploy:
   replicas: 2
   update_config:
@@ -112,8 +112,8 @@ resources:
     cpus: '0.20'
     memory: 512Mi
   limits:
-    cpus: '0.40'
-    memory: 1536Mi
+    cpus: '0.75'
+    memory: 2048Mi
 ```
 
 Voir la consommation CPU et mémoire des conteneurs Docker :
