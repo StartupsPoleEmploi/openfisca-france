@@ -66,3 +66,52 @@ foo@bar:~$ docker exec -it %container id% pip show openfisca-france
    ```
    foo@bar:~$ docker stack rm openfisca-france
    ```
+
+## Zero Downtime Deployment
+
+The Docker service is configured to get zero downtime during deployment.
+
+```
+healthcheck:
+  test: curl -v --silent http://localhost:5000/variables || exit 1
+  timeout: 30s
+  interval: 1m
+  retries: 10
+  start_period: 30s
+deploy:
+  replicas: 2
+  update_config:
+    parallelism: 1
+    order: start-first
+    failure_action: rollback
+    delay: 10s
+  rollback_config:
+    parallelism: 0
+    order: stop-first
+  restart_policy:
+    condition: any
+    delay: 5s
+    max_attempts: 3
+    window: 180s
+```
+
+This configuration allows to replicate the service with 2 replicas. When a restart coming, a service will be considered operationnal if healthcheck test succeeded. If a restart comming, Docker restart one service and when this first service is operationnal (healthy status), Docker updates the second service.
+
+## CPU and memory reservations
+
+To control server resources, limitations on CPU and memory usage have been configured :
+
+```
+resources:
+  reservations:
+    cpus: '0.20'
+    memory: 512Mi
+  limits:
+    cpus: '0.75'
+    memory: 2048Mi
+```
+
+To see CPU and memory used by Docker containers, execute this command :
+```
+foo@bar:~$ docker stats
+```
