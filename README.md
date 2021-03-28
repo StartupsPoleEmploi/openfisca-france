@@ -1,6 +1,6 @@
 ![logo OpenFisca](.gitlab/images/openfisca.png)
 
-:uk: [English version](https://github.com/StartupsPoleEmploi/openfisca-france/blob/9c3f813f04f7c94b47984982fce9aa12c9eab6f1/README_EN.md)
+:gb: [English version](https://github.com/StartupsPoleEmploi/openfisca-france/blob/9c3f813f04f7c94b47984982fce9aa12c9eab6f1/README_EN.md)
 
 # [OpenFisca France] Moteur de calculs d'aides sociales (prime d'activité, RSA, etc...)
 
