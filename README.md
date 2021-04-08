@@ -1,8 +1,10 @@
 ![logo OpenFisca](.gitlab/images/openfisca.png)
 
+:gb: [English version](https://github.com/StartupsPoleEmploi/openfisca-france/blob/9c3f813f04f7c94b47984982fce9aa12c9eab6f1/README_EN.md)
+
 # [OpenFisca France] Moteur de calculs d'aides sociales (prime d'activité, RSA, etc...)
 
-Ce projet permet de **conteneuriser** l'application **OpenFisca France** en utilisant Docker.
+Ce projet permet de **conteneuriser** l'application **OpenFisca France** avec Docker.
 
 Ce projet a été conçu dans le cadre de la réalisation de l'application [Estime](https://git.beta.pole-emploi.fr/estime/estime-frontend/-/blob/master/README.md).
 
@@ -17,54 +19,41 @@ OpenFisca France est un moteur de calcul Open source développé dans le languag
 
 **Structuration du projet :**
 
-- **local :** contient les fichiers de configuration pour lancer l'application en local avec Docker Compose
-- **dist :** contient les fichiers de configuration pour l'environnement de recette et de production. Le conteneur est déployé sur un serveur Docker Swarm
+- **local :** fichiers de configuration pour lancer l'application en local avec Docker Compose
+- **dist :** fichiers de configuration pour l'environnement de recette et de production. Le conteneur est déployé sur un serveur Docker Swarm
 
 ## Démarrer l'application OpenFisca en local avec Docker Compose
 
 **Prérequis :** installer [Docker](https://docs.docker.com/engine/install/) et [Docker Compose](https://docs.docker.com/compose/install/).
 
-1. Contruire l'image Docker **openfisca-france** 
+1. Contruire l'image Docker
 
-   1. Se positionner dans le répertoire **docker-image**
-   1. Exécuter la commande suivante pour construire l'image :
-
-      ```shell
-      foo@bar:~openfisca-france/docker-image$ docker build -t openfisca-france .
-      ```
-1. Exécuter la commande suivante pour démarrer le conteneur :
+   ```shell
+   foo@bar:~openfisca-france/docker-image$ docker build -t openfisca-france .
+   ```
+1. Démarrer le conteneur :
 
     ```shell
     foo@bar:~openfisca-france$ docker-compose  -f ./local/docker-compose.yml up -d
     ```
 1. L'application est accessible sur http://localhost:5000
 
-# [OpenFisca] Quelques trucs utiles
-
-## Connaître la version de OpenFisca France
-
-Executer la commande ci-dessous pour connaître la version du package openfisca-france installé dans le conteneur.
-
-Remplacer la variable **%id_conteneur%** par l'id du conteneur. Utiliser la commande **docker container ls** pour connaître l'id du conteneur.
+# [OpenFisca] Connaître la version de OpenFisca France
 
 ```shell
 foo@bar:~$ docker exec -it %id_conteneur% pip show openfisca-france
 ```
 
-# [Suivi opérationnel] Comment dépanner l'application sur les environnements distants (recette et production) ?
+# [Suivi opérationnel] Comment dépanner l'application sur un serveur Docker Swarm ?
 
-Il faut au préablable se connecter sur une des machines distantes avec un **utilisateur ayant les droits Docker**.
-
-Le fichier de la stack Docker Swarm se trouve dans le répertoire **/home/docker/openfisca**.
-
-- Vérifier que le service est bien au statut **running** en exécutant la commande suivante :
+- Vérifier que l'application fonctionne correctement :
 
    ```
    foo@bar:~$ docker stack ps openfisca-france
    ```
-   2 replicas ont été déclarés, vous devriez donc voir 2 services à l'état **running**
+   Les conteneurs doivent être au statut UP et healthy.
 
-- Voir les logs du service en exécutant la commande suivante :
+- Consulter les logs :
 
    ```
    foo@bar:~$ docker service logs openfisca-france_openfisca-france
@@ -73,21 +62,63 @@ Le fichier de la stack Docker Swarm se trouve dans le répertoire **/home/docker
 - Démarrer ou relancer les services
 
    - Se positionner dans le répertoire **/home/docker/openfisca**
-   - Se connecter au registry privé du Gitlab de l'incubateur en executant la commande suivante :
+   - Exécuter la commande suivante :
 
-      Vous devez au préalable avoir récupéré un token depuis votre compte Gitlab. Ce token vous servira de mot de passe.
+     ```
+     foo@bar:/home/docker/openfisca$ docker stack deploy --with-registry-auth -c openfisca-production-stack.yml openfisca-france
+     ```
 
-      ```
-      foo@bar:~$ docker login registry.beta.pole-emploi.fr
-      ```
-   - Une fois connecté au registry, vous devez exécuter la commande suivante pour démarrer ou relancer les services :
-
-      ```
-      foo@bar:/home/docker/openfisca$ docker stack deploy --with-registry-auth -c openfisca-production-stack.yml openfisca-france
-      ```
-
-- Stopper les services en exécutant la commande suivante :
+- Stopper le service :
 
    ```
    foo@bar:~$ docker stack rm openfisca-france
    ```
+
+## Zero Downtime Deployment
+
+Le service Docker a été configuré afin d'éviter un temps de coupure du service au redémarrage de l'application.
+
+```
+healthcheck:
+  test: curl -v --silent http://localhost:5000/variables || exit 1
+  timeout: 30s
+  interval: 1m
+  retries: 10
+  start_period: 30s
+deploy:
+  replicas: 2
+  update_config:
+    parallelism: 1
+    order: start-first
+    failure_action: rollback
+    delay: 10s
+  rollback_config:
+    parallelism: 0
+    order: stop-first
+  restart_policy:
+    condition: any
+    delay: 5s
+    max_attempts: 3
+    window: 180s
+```
+
+Cette configuration permet une réplication du service avec 2 replicas. Lors d'un redémarrage, un service sera considéré opérationnel que si le test du healthcheck a réussi. Si un redémarrage est lancé, Docker va mettre à jour un premier service et s'assurer que le conteneur soit au statut healthy avant de mettre à jour le second service.
+
+## Limitation des ressources CPU et RAM
+
+Afin de gérer au mieux les ressources du serveur, la quantité de ressources CPU et de mémoire que peut utliser un conteneur a été limitée :
+
+```
+resources:
+  reservations:
+    cpus: '0.20'
+    memory: 512Mi
+  limits:
+    cpus: '0.75'
+    memory: 2048Mi
+```
+
+Voir la consommation CPU et mémoire des conteneurs Docker :
+```
+foo@bar:~$ docker stats
+```
