@@ -49,7 +49,7 @@ foo@bar:~$ docker exec -it %id_conteneur% pip show openfisca-france
 - Vérifier que l'application fonctionne correctement :
 
    ```
-   foo@bar:~$ docker stack ps openfisca-france
+   foo@bar:~$ docker container ls | grep openfisca-france
    ```
    Les conteneurs doivent être au statut UP et healthy.
 
