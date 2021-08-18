@@ -122,3 +122,23 @@ Voir la consommation CPU et mémoire des conteneurs Docker :
 ```
 foo@bar:~$ docker stats
 ```
+
+# [Livraison] Livrer une nouvelle version en production
+
+Une image Docker Python contenant le code source de l'application OpenFisca est livrée sur les différents environnements (recette, production). Cette image est versionnée en **release-candidate pour la recette** et en **release pour la production**.
+
+## Procédure de build et de livraison d'une version release en production
+
+Après s'être assuré du bon fonctionnement de l'application sur l'environnement de recette, voici les étapes à suivre pour livrer la version de l'application de recette en production.
+
+### La veille de la mise en prodction
+
+* lancer dans le pipeline GitLab CI, le job **build-docker-image-production** 
+
+### Mise en production le lendemain
+
+* lancer le job **deploy_application_production**
+
+* se connecter sur la machine pour vérifier que tout se passe bien, voir section [Suivi opérationnel](#suivi-opérationnel-comment-dépanner-lapplication-sur-un-serveur-docker-swarm-)
+
+*  envoyer une notification à l'équipe
